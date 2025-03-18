@@ -4,7 +4,7 @@
 
 **jetkvm-native**
 
-[Website](https://jetkvm.com) • [Issues](https://github.com/jetkvm/kvm/issues) • [Docs](https://jetkvm.com/docs) • [Discord](https://jetkvm.com/discord)
+[Website](https://jetkvm.com) • [Issues](https://github.com/jetkvm/jetkvm-native/issues) • [Docs](https://jetkvm.com/docs) • [Discord](https://jetkvm.com/discord)
 
 </div>
 
