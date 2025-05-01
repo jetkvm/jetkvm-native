@@ -137,7 +137,41 @@ void handle_lvgl_call(const int seq, const char *method, const char *json, size_
     lv_obj_t *obj = NULL;
     char *obj_name = NULL;
 
-    if (json_scanf(json, json_len, "{params: {obj: %Q}}", &obj_name) > 0)
+    if (strcmp(method, "lv_disp_set_rotation") == 0)
+    {
+        char *rotation = NULL;
+        if (json_scanf(json, json_len, "{params: {rotation: %Q}}", &rotation) > 0)
+        {
+            lv_disp_rot_t rot;
+            if (strcmp(rotation, "90") == 0)
+            {
+                rot = LV_DISP_ROT_90;
+            }
+            else if (strcmp(rotation, "270") == 0)
+            {
+                rot = LV_DISP_ROT_270;
+            }
+            else
+            {
+                rot = -1;
+            }
+            free(rotation);
+            if (rot != -1)
+            {
+                lv_disp_set_rotation(NULL, rot);
+                write_json(ctrl_client_fd, "{seq: %d}", seq);
+            }
+            else
+            {
+                write_json_error(ctrl_client_fd, seq, "illegal rotation value");
+            }
+        }
+        else
+        {
+            write_json_error(ctrl_client_fd, seq, "missing rotation parameter");
+        }
+    }
+    else if (json_scanf(json, json_len, "{params: {obj: %Q}}", &obj_name) > 0)
     {
         obj = ui_get_obj(obj_name);
         free(obj_name);
