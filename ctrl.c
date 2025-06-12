@@ -132,6 +132,45 @@ const char *bytes_to_hex(const uint8_t *bytes, size_t len)
     return hex_str;
 }
 
+lv_obj_flag_t str_to_lv_obj_flag(const char *flag)
+{
+    if (strcmp(flag, "LV_OBJ_FLAG_HIDDEN") == 0)
+    {
+        return LV_OBJ_FLAG_HIDDEN;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_CLICKABLE") == 0)
+    {
+        return LV_OBJ_FLAG_CLICKABLE;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_SCROLLABLE") == 0)
+    {
+        return LV_OBJ_FLAG_SCROLLABLE;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_CLICK_FOCUSABLE") == 0)
+    {
+        return LV_OBJ_FLAG_CLICK_FOCUSABLE;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_SCROLL_ON_FOCUS") == 0)
+    {
+        return LV_OBJ_FLAG_SCROLL_ON_FOCUS;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_SCROLL_CHAIN") == 0)
+    {
+        return LV_OBJ_FLAG_SCROLL_CHAIN;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_PRESS_LOCK") == 0)
+    {
+        return LV_OBJ_FLAG_PRESS_LOCK;
+    }
+    else if (strcmp(flag, "LV_OBJ_FLAG_OVERFLOW_VISIBLE") == 0)
+    {
+        return LV_OBJ_FLAG_OVERFLOW_VISIBLE;
+    }
+    else
+    {
+        return LV_OBJ_FLAG_UNKNOWN; // Unknown flag
+}
+
 void handle_lvgl_call(const int seq, const char *method, const char *json, size_t json_len)
 {
     lv_obj_t *obj = NULL;
@@ -250,6 +289,52 @@ void handle_lvgl_call(const int seq, const char *method, const char *json, size_
             {
                 write_json_error(ctrl_client_fd, seq, "missing state parameter");
             }
+        }
+        else if (strcmp(method, "lv_obj_add_flag") == 0)
+        {
+            char *flag = NULL;
+            if (json_scanf(json, json_len, "{params: {flag: %Q}}", &flag) > 0)
+            {
+                lv_obj_flag_t flag_val = str_to_lv_obj_flag(flag);
+                if (flag_val == 0)
+                {
+                    free(flag);
+                    write_json_error(ctrl_client_fd, seq, "unknown flag");
+                    return;
+                }
+                lv_obj_add_flag(obj, flag_val);
+                free(flag);
+                write_json(ctrl_client_fd, "{seq: %d}", seq);
+            }
+            else
+            {
+                write_json_error(ctrl_client_fd, seq, "missing flag parameter");
+            }
+        }
+        else if (strcmp(method, "lv_obj_clear_flag") == 0)
+        {
+            char *flag = NULL;
+            if (json_scanf(json, json_len, "{params: {flag: %Q}}", &flag) > 0)
+            {
+                lv_obj_flag_t flag_val = str_to_lv_obj_flag(flag);
+                if (flag_val == 0)
+                {
+                    free(flag);
+                    write_json_error(ctrl_client_fd, seq, "unknown flag");
+                    return;
+                }
+                lv_obj_clear_flag(obj, flag_val);
+                free(flag);
+                write_json(ctrl_client_fd, "{seq: %d}", seq);
+            }
+            else
+            {
+                write_json_error(ctrl_client_fd, seq, "missing flag parameter");
+            }
+        }
+        else
+        {
+            write_json_error(ctrl_client_fd, seq, "unknown method");
         }
     }
     else
