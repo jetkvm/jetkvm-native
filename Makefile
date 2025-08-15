@@ -3,8 +3,8 @@ SHELL:=/bin/bash
 
 CURRENT_DIR := $(shell pwd)
 RK_SDK_BASE ?= /opt/jetkvm-native-buildkit
-RK_APP_CROSS := $(RK_SDK_BASE)/tools/linux/toolchain/arm-rockchip830-linux-uclibcgnueabihf/bin/arm-rockchip830-linux-uclibcgnueabihf
-RK_MEDIA_OUTPUT := $(RK_SDK_BASE)/media/out
+RK_APP_CROSS := $(RK_SDK_BASE)/bin/arm-rockchip830-linux-uclibcgnueabihf
+RK_MEDIA_OUTPUT := $(RK_SDK_BASE)/arm-rockchip830-linux-uclibcgnueabihf
 RK_MEDIA_INCLUDE_PATH := $(RK_MEDIA_OUTPUT)/include
 RK_APP_MEDIA_LIBS_PATH :=  $(RK_MEDIA_OUTPUT)/lib
 

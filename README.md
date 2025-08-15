@@ -32,7 +32,7 @@ sudo apt-get install -y --no-install-recommends \
 #### 2. Download the latest SDK
 
 ```bash
-BUILDKIT_VERSION="v0.2.2"
+BUILDKIT_VERSION="v0.2.5"
 wget https://github.com/jetkvm/rv1106-system/releases/download/${BUILDKIT_VERSION}/buildkit.tar.zst
 mkdir -p /opt/jetkvm-native-buildkit
 tar --use-compress-program="unzstd --long=31" -xvf buildkit.tar.zst -C /opt/jetkvm-native-buildkit

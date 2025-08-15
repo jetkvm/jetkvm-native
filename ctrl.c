@@ -168,7 +168,8 @@ lv_obj_flag_t str_to_lv_obj_flag(const char *flag)
     }
     else
     {
-        return LV_OBJ_FLAG_UNKNOWN; // Unknown flag
+        return 0; // Unknown flag
+    }
 }
 
 void handle_lvgl_call(const int seq, const char *method, const char *json, size_t json_len)
