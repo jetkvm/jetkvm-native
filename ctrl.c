@@ -333,6 +333,32 @@ void handle_lvgl_call(const int seq, const char *method, const char *json, size_
                 write_json_error(ctrl_client_fd, seq, "missing flag parameter");
             }
         }
+        else if (strcmp(method, "lv_obj_fade_in") == 0)
+        {
+            uint32_t duration = 0;
+            if (json_scanf(json, json_len, "{params: {duration: %u}}", &duration) > 0)
+            {
+                lv_obj_fade_in(obj, duration, 0);
+                write_json(ctrl_client_fd, "{seq: %d}", seq);
+            }
+            else
+            {
+                write_json_error(ctrl_client_fd, seq, "missing duration parameter");
+            }
+        }
+        else if (strcmp(method, "lv_obj_fade_out") == 0)
+        {
+            uint32_t duration = 0;
+            if (json_scanf(json, json_len, "{params: {duration: %u}}", &duration) > 0)
+            {
+                lv_obj_fade_out(obj, duration, 0);
+                write_json(ctrl_client_fd, "{seq: %d}", seq);
+            }
+            else
+            {
+                write_json_error(ctrl_client_fd, seq, "missing duration parameter");
+            }
+        }
         else
         {
             write_json_error(ctrl_client_fd, seq, "unknown method");
