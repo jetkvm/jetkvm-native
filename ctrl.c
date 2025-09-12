@@ -353,7 +353,9 @@ void handle_lvgl_call(const int seq, const char *method, const char *json, size_
             {
                 lv_obj_fade_out(obj, duration, 0);
                 write_json(ctrl_client_fd, "{seq: %d}", seq);
-            } else {
+            }
+            else
+            {
                 write_json_error(ctrl_client_fd, seq, "missing duration parameter");
             }
         }
