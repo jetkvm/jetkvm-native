@@ -8,6 +8,9 @@
 
 </div>
 
+> [!IMPORTANT]
+> JetKVM native has been merged into [JetKVM](https://github.com/jetkvm/kvm/tree/dev/internal/native) repository. This repository is no longer maintained.
+
 JetKVM native is a part of JetKVM application, but written in C and needs to be compiled with Rockchip SDK. It mainly provides the following functions:
 
 - HDMI capture
